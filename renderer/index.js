@@ -32,7 +32,7 @@ const renderPlayerHTML = (name, duration) => {
     const palyStatus = $("play-status")
     const html = 
     `<div class="col">
-        正在播放${name}
+        正在播放: ${name}
     </div>
     <div class="col">
         <span id="current-seeker">0:00</span>/ ${convertDuration(duration)}
