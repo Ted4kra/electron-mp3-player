@@ -37,6 +37,8 @@ app.on('ready', () => {
     addWindow = new AppWindow({
       width: 500,
       height: 400,
+      parent: mainWindow,
+      modal: true
     }, "./renderer/add.html")
   })
   ipcMain.on("choose-music-file", (event) => {
