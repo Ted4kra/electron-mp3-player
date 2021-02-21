@@ -1,0 +1,62 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon --watch main.js --exec 'electron .'",
+    "dist": "electron-builder",
+    "pack": "electron-builder --dir"
+  },
+  "build": {
+    "appId": "org.zlg.localMusicPlayer",
+    "mac": {
+      "category": "public.app-category.music",
+      "target": ["dmg"],
+      "darkModeSupport": false
+    },
+    "dmg": {
+      "background": "builder/appdmg.icns",
+      "icon": "builder/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    }
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "Music",
+    "local music",
+    "player",
+    "music player",
+    "Desktop app"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^11.2.3",
+    "electron-builder": "^22.9.1",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "electron-store": "^7.0.2",
+    "uuid": "^8.3.2"
+  }
+}
