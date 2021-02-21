@@ -26,13 +26,15 @@ class AppWindow extends BrowserWindow {
 
 app.on('ready', () => {
   const mainWindow = new AppWindow({}, "./renderer/index.html")
+  let addWindow;
+
   mainWindow.webContents.on("did-finish-load", () => {
     mainWindow.send("get-tracks", musicStore.getTracks());
   })
   const musicStore = new MusicStore({"name": "musicData"})
 
   ipcMain.on("add-music-window", () => {
-    const addWindow = new AppWindow({
+    addWindow = new AppWindow({
       width: 500,
       height: 400,
     }, "./renderer/add.html")
@@ -47,22 +49,24 @@ app.on('ready', () => {
       }
     })
   })
-  ipcMain.on("import-music-files", (event, filePathes) => {
-    const updateTracks = musicStore.addTracks(filePathes).get()
-    event.sender.send("get-tracks", updateTracks);
-    const musicDir = appDataPath + "/musics"
-    fs.access(musicDir, (error) => {
-      if (error) {
-        fs.mkdir(musicDir, () => {})
-      }
-    })
+  ipcMain.on("import-music-files", (_, filePathes) => {
+    const updateTracks = musicStore.addTracks(filePathes).getTracks()
+    mainWindow.send("get-tracks", updateTracks);
+    addWindow.close()
+
+    // const musicDir = appDataPath + "/musics"
+    // fs.access(musicDir, (error) => {
+    //   if (error) {
+    //     fs.mkdir(musicDir, () => {})
+    //   }
+    // })
     
-    filePathes.forEach(filePath => {
-      const content = fs.readFileSync(filePath)
-      const saveFilePath = path.join(musicDir, path.basename(filePath))
-      console.log(content)
-      fs.writeFile(saveFilePath ,content, () => {})
-    })
+    // filePathes.forEach(filePath => {
+    //   const content = fs.readFileSync(filePath)
+    //   const saveFilePath = path.join(musicDir, path.basename(filePath))
+    //   console.log(content)
+    //   fs.writeFile(saveFilePath ,content, () => {})
+    // })
 
   })
   ipcMain.on("delete-music", (_, id) => {  

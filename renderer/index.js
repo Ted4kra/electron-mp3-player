@@ -53,6 +53,7 @@ const renderProgress = (second, total) => {
 ipcRenderer.on("get-tracks", (_, tracks)  => {    
     renderListHTML(tracks)
     allTracks = tracks
+    console.log("renderListHTML")
 })
 
 $("track-list").addEventListener("click", (element) => {
